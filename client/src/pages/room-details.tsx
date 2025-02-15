@@ -82,7 +82,7 @@ export default function RoomDetails() {
               </ul>
             </div>
 
-            <BookingForm roomId={room.id} />
+            <BookingForm roomId={room.id} price={room.price} />
           </motion.div>
         </div>
       </div>
