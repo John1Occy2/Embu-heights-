@@ -87,6 +87,9 @@ function PaymentForm({ clientSecret }: { clientSecret: string }) {
 export default function BookingForm({ roomId, price }: BookingFormProps) {
   const { toast } = useToast();
   const [clientSecret, setClientSecret] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
 
   const form = useForm<InsertBooking>({
     resolver: zodResolver(bookingFormSchema),
@@ -104,11 +107,20 @@ export default function BookingForm({ roomId, price }: BookingFormProps) {
 
   const mutation = useMutation({
     mutationFn: async (data: InsertBooking) => {
-      const response = await apiRequest("POST", "/api/payment/create-payment-intent", data);
-      const { clientSecret } = await response.json();
-      setClientSecret(clientSecret);
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await apiRequest("POST", "/api/payment/create-payment-intent", data);
+        const { clientSecret } = await response.json();
+        setClientSecret(clientSecret);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     },
-    onError: () => {
+    onError: (err: any) => {
+      setError(err.message);
       toast({
         title: "Error",
         description: "Failed to initialize payment. Please try again.",
@@ -265,13 +277,19 @@ export default function BookingForm({ roomId, price }: BookingFormProps) {
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={mutation.isPending}
-          >
-            {mutation.isPending ? "Processing..." : "Continue to Payment"}
-          </Button>
+          {isLoading ? (
+            <p>Processing...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : (
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? "Processing..." : "Continue to Payment"}
+            </Button>
+          )}
         </form>
       </Form>
 
