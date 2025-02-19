@@ -6,11 +6,13 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 33 30% 92%;
+    --foreground: 20 36% 15%;
     --primary: 28 58% 57%;
     --primary-foreground: 0 0% 98%;
     --primary-dark: 28 47% 47%;
+    --accent: 15 80% 50%;
+    --accent-foreground: 0 0% 98%;
   }
 
   * {

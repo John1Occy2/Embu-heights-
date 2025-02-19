@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 
@@ -35,16 +36,27 @@ export default function Hero() {
             Where traditional African hospitality meets modern comfort,
             creating an unforgettable stay in the heart of Kenya.
           </p>
-          <Link href="/rooms">
-            <motion.a
+          <div className="flex gap-4">
+            <Link href="/rooms">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                className="inline-block bg-primary text-white px-8 py-3 rounded-md
+                          font-montserrat text-sm tracking-wide transform transition-all
+                          hover:bg-opacity-90 hover:shadow-lg cursor-pointer"
+              >
+                Book Your Stay
+              </motion.a>
+            </Link>
+            <motion.button
               whileHover={{ scale: 1.05 }}
-              className="inline-block bg-primary text-white px-8 py-3 rounded-md
+              onClick={() => window.location.href = "/__repl"}
+              className="inline-block border-2 border-white text-white px-8 py-3 rounded-md
                         font-montserrat text-sm tracking-wide transform transition-all
-                        hover:bg-opacity-90 hover:shadow-lg cursor-pointer"
+                        hover:bg-white hover:text-primary hover:shadow-lg"
             >
-              Book Your Stay
-            </motion.a>
-          </Link>
+              Login / Sign Up
+            </motion.button>
+          </div>
         </motion.div>
       </div>
     </div>
