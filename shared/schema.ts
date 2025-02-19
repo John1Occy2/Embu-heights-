@@ -9,7 +9,9 @@ export const rooms = pgTable("rooms", {
   price: integer("price").notNull(),
   capacity: integer("capacity").notNull(),
   imageUrl: text("image_url").notNull(),
+  virtualTourUrl: text("virtual_tour_url"),
   amenities: text("amenities").array().notNull(),
+  isBooked: boolean("is_booked").notNull().default(false),
 });
 
 export const bookings = pgTable("bookings", {
@@ -30,16 +32,26 @@ export const contacts = pgTable("contacts", {
   message: text("message").notNull(),
 });
 
-export const insertRoomSchema = createInsertSchema(rooms).omit({ id: true });
+export const cartItems = pgTable("cart_items", {
+  id: serial("id").primaryKey(),
+  roomId: integer("room_id").notNull(),
+  sessionId: text("session_id").notNull(),
+  addedAt: date("added_at").notNull().default("CURRENT_DATE"),
+});
+
+export const insertRoomSchema = createInsertSchema(rooms).omit({ id: true, isBooked: true });
 export const insertBookingSchema = createInsertSchema(bookings).omit({ id: true });
 export const insertContactSchema = createInsertSchema(contacts).omit({ id: true });
+export const insertCartItemSchema = createInsertSchema(cartItems).omit({ id: true, addedAt: true });
 
 export type Room = typeof rooms.$inferSelect;
 export type Booking = typeof bookings.$inferSelect;
 export type Contact = typeof contacts.$inferSelect;
+export type CartItem = typeof cartItems.$inferSelect;
 export type InsertRoom = z.infer<typeof insertRoomSchema>;
 export type InsertBooking = z.infer<typeof insertBookingSchema>;
 export type InsertContact = z.infer<typeof insertContactSchema>;
+export type InsertCartItem = z.infer<typeof insertCartItemSchema>;
 
 export const bookingFormSchema = insertBookingSchema.extend({
   checkIn: z.coerce.date().min(new Date(), "Check-in date must be in the future"),
