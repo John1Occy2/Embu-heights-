@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 
@@ -16,22 +15,26 @@ export default function Navigation() {
     <nav className="fixed w-full bg-white/80 backdrop-blur-sm z-50">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/">
-            <span className="font-playfair text-2xl text-primary cursor-pointer">Embu Heights</span>
-          </Link>
-          
+          <div className="font-playfair text-2xl text-primary cursor-pointer">
+            <Link href="/">
+              <span>Embu Heights</span>
+            </Link>
+          </div>
+
           <div className="hidden md:flex items-center space-x-8">
             {links.map(link => (
-              <Link key={link.href} href={link.href}>
-                <span className={cn(
-                  "text-sm font-montserrat tracking-wide transition-colors cursor-pointer",
-                  location === link.href
-                    ? "text-primary"
-                    : "text-foreground hover:text-primary"
-                )}>
-                  {link.label}
-                </span>
-              </Link>
+              <div key={link.href} className="cursor-pointer">
+                <Link href={link.href}>
+                  <span className={cn(
+                    "text-sm font-montserrat tracking-wide transition-colors",
+                    location === link.href
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary"
+                  )}>
+                    {link.label}
+                  </span>
+                </Link>
+              </div>
             ))}
             <button
               onClick={() => window.location.href = "/__repl"}
