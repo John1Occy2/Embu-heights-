@@ -2,12 +2,15 @@
   "version": 2,
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "framework": "vite",
-  "outputDirectory": "dist",
+  "framework": "nextjs",
   "functions": {
-    "api/*.ts": {
+    "pages/api/**/*.ts": {
       "memory": 1024,
       "maxDuration": 10
     }
+  },
+  "env": {
+    "BLOB_READ_WRITE_TOKEN": "@blob-rw-token",
+    "POSTGRES_URL": "@postgres-url"
   }
 }
